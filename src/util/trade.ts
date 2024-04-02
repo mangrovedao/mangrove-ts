@@ -552,8 +552,10 @@ class Trade {
   ) {
     // If not given an explicit gasLimit then we estimate it. Ethers does this automatically, but if we are given a lower bound,
     // (for instance from our own estimateGas function) then we need to invoke estimation manually and compare.
-    if (!overrides.gasLimit && gasLowerBound) {
-      overrides.gasLimit = await estimateTx(...args);
+    if (!overrides.gasLimit && !gasLowerBound) {
+      overrides.gasLimit = (await estimateTx(...args)).mul(120).div(100);
+    } else if (!overrides.gasLimit && gasLowerBound) {
+      overrides.gasLimit = (await estimateTx(...args)).mul(120).div(100);
       if (overrides.gasLimit.lt(gasLowerBound)) {
         overrides.gasLimit = gasLowerBound;
       }
