@@ -1,5 +1,7 @@
 # Next version
 
+# 2.0.5-49
+
 - Add 20% to gas limit from the gas estimation
 
 # 2.0.5-48
