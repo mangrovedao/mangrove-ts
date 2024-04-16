@@ -1,5 +1,7 @@
 # Next version
 
+- Change gas estimation for kandel populate transaction.
+
 # 2.0.5-49
 
 - Add 20% to gas limit from the gas estimation
