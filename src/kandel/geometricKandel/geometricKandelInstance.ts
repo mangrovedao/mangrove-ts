@@ -362,6 +362,21 @@ class GeometricKandelInstance extends CoreKandelInstance {
         params.distribution.askGives,
       );
 
+      const gasEstimation =
+        await this.geometricKandel.estimateGas.populateFromOffset(
+          firstDistribution.from,
+          firstDistribution.to,
+          params.distribution.baseQuoteTickIndex0,
+          newBaseQuoteTickOffset,
+          params.distribution.firstAskIndex,
+          rawBidGives,
+          rawAskGives,
+          rawParameters,
+          rawDepositBaseAmount,
+          rawDepositQuoteAmount,
+          overridesWithFunds,
+        );
+
       const txs = [
         await this.geometricKandel.populateFromOffset(
           firstDistribution.from,
@@ -374,7 +389,10 @@ class GeometricKandelInstance extends CoreKandelInstance {
           rawParameters,
           rawDepositBaseAmount,
           rawDepositQuoteAmount,
-          overridesWithFunds,
+          {
+            ...overridesWithFunds,
+            gasLimit: gasEstimation.mul(2),
+          },
         ),
       ];
 
