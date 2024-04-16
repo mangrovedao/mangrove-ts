@@ -348,6 +348,11 @@ namespace Market {
      *
      * Defaults to `Semibook.DEFAULT_CHUNK_SIZE`. */
     chunkSize?: number;
+
+    /**
+     * Whether to allow unknown offer IDs in the cache.
+     */
+    allowUnknownId?: boolean;
   };
 
   /**
@@ -684,20 +689,24 @@ class Market {
         return {
           desiredVolume: semibookDesiredVolume,
           chunkSize: opts.chunkSize,
+          allowUnknownId: opts.allowUnknownId,
         };
       } else if ("desiredPrice" in opts) {
         return {
           desiredPrice: opts.desiredPrice,
           chunkSize: opts.chunkSize,
+          allowUnknownId: opts.allowUnknownId,
         };
       } else if ("targetNumberOfTicks" in opts) {
         return {
           targetNumberOfTicks: opts.targetNumberOfTicks,
           chunkSize: opts.chunkSize,
+          allowUnknownId: opts.allowUnknownId,
         };
       } else {
         return {
           chunkSize: opts.chunkSize,
+          allowUnknownId: opts.allowUnknownId,
         };
       }
     };

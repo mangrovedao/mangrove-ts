@@ -98,6 +98,11 @@ namespace Semibook {
      *
      * Defaults to `Semibook.DEFAULT_CHUNK_SIZE`. */
     chunkSize?: number;
+
+    /**
+     * Whether to allow unknown offer IDs in the cache.
+     */
+    allowUnknownId?: boolean;
   };
 
   /**
@@ -224,8 +229,7 @@ class Semibook
   readonly market: Market;
   readonly tickPriceHelper: TickPriceHelper;
   readonly options: Semibook.ResolvedOptions; // complete and validated
-  readonly #cacheOperations: SemibookCacheOperations =
-    new SemibookCacheOperations();
+  readonly #cacheOperations: SemibookCacheOperations;
 
   #eventListeners: Map<Semibook.EventListener, boolean> = new Map();
 
@@ -868,6 +872,8 @@ class Semibook
     this.olKey = market.getOLKey(ba);
 
     this.#eventListeners.set(eventListener, true);
+
+    this.#cacheOperations = new SemibookCacheOperations(options.allowUnknownId);
   }
 
   async stateInitialize(
@@ -1556,6 +1562,12 @@ class CacheIterator implements Semibook.CacheIterator {
 // Only used internally, exposed for testing.
 // All modifications of the cache must be called in a context where #cacheLock is acquired.
 export class SemibookCacheOperations {
+  private allowUnknownId: boolean;
+
+  constructor(allowUnknownId = false) {
+    this.allowUnknownId = allowUnknownId;
+  }
+
   // Marks an incomplete cache as known to be complete.
   markComplete(state: Semibook.State): void {
     if (state.isComplete) {
@@ -1645,7 +1657,7 @@ export class SemibookCacheOperations {
   removeOfferDueToEvent(
     state: Semibook.State,
     id: number,
-    allowUnknownId = false,
+    allowUnknownId = this.allowUnknownId,
   ): Market.Offer | undefined {
     const offer = state.offerCache.get(id);
     if (offer === undefined) {
