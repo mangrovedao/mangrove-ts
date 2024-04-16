@@ -1,5 +1,7 @@
 # Next version
 
+# 2.0.5-51
+
 - Add option to disable unknown offer id.
 
 # 2.0.5-50
