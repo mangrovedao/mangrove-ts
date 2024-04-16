@@ -1,5 +1,7 @@
 # Next version
 
+- Add option to disable unknown offer id.
+
 # 2.0.5-50
 
 - Change gas estimation for kandel populate transaction.
