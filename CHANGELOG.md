@@ -1,5 +1,7 @@
 # Next version
 
+- update gasreq for simple limit orders
+
 # 2.0.5-51
 
 - Add option to disable unknown offer id.
