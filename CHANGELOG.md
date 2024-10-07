@@ -1,5 +1,7 @@
 # Next version
 
+# 2.0.5-54
+
 - Bump context addresses to v1.3.6-0 and deployments to v2.2.4-6
 
 # 2.0.5-53
